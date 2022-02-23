@@ -101,3 +101,4 @@ def main():
         current_ranked_words = filter_possible_words(current_ranked_words, good_characters, possible_characters, bad_characters)
 
 main()
+
