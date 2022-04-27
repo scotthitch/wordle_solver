@@ -5,9 +5,8 @@
 ## Use:
 
 _Note: The aim of the reccomended words is to cut down the list of possible words as quickly as possible. \
-The reccomended word will not be the final answer._
-
-The final answer will be displayed in the list of possible words.
+The reccomended word will not be the final answer. \
+The final answer will be displayed in the list of possible words._
 
 - You'll first be shown a list of all possible words
 - You will then be given a 'best guess' word to cut down this list
