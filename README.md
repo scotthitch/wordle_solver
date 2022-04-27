@@ -2,7 +2,11 @@
 
 ## How to use:
 
-#### Note: The aim of the reccomended words is to cut down the list of possible words as quickly as possible. The reccomended will not be the final answer. The final answer will be displayed in the list of possible words.
+#### Note: The aim of the reccomended words is to cut down the list of possible words as quickly as possible.
+
+#### The reccomended word will not be the final answer.
+
+The final answer will be displayed in the list of possible words.
 
 - You first be shown a list of all possible words
 - You will then be given a 'best guess' word to cut down this list
