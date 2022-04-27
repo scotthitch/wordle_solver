@@ -1,8 +1,8 @@
-# Welcome to my Wordle solver! (v3)
+# Welcome to my Wordle solver!
 
 ![](wordle_logo.png)
 
-## Use:
+## Use (v3):
 
 _Note: The aim of the reccomended words is to cut down the list of possible words as quickly as possible. \
 The reccomended word will not be the final answer. \
