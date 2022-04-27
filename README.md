@@ -9,7 +9,7 @@ The reccomended word will not be the final answer. \
 The final answer will be displayed in the list of possible words._
 
 - You'll first be shown a list of all possible words
-- You'll then be given a 'best guess' word to cut down this list
+- You will then be given a 'best guess' word to cut down this list
 - Some of the words in this list aren't valid in Wordle. So there is a y/n prompt for if a word is valid
 - If a word is invalid, you'll be given a new reccomendation
 - Once you've found a valid word, input the 5 results as follows (e.g. 'nymmn'):
