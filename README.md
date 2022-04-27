@@ -2,7 +2,7 @@
 
 ![](wordle_logo.png)
 
-## Use (v3):
+## Use:
 
 _Note: The aim of the reccomended words is to cut down the list of possible words as quickly as possible. \
 The reccomended word will not be the final answer. \
