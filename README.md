@@ -1,6 +1,6 @@
-# Welcome to my [Wordle](https://www.nytimes.com/games/wordle/index.html) solver! (v3)
-
 ![](wordle_logo.png)
+
+# Welcome to my [Wordle](https://www.nytimes.com/games/wordle/index.html) solver! (v3)
 
 ## Use:
 
