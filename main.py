@@ -2,7 +2,11 @@ from calendar import c
 from collections import Counter
 WORD_LENGTH: int = 5
 
+wordle_master_words_file = open('wordle_master_words.txt', 'r')
+wordle_master_words = wordle_master_words_file.read().splitlines()
 
+wordle_possible_words_file = open('wordle_possible_words.txt', 'r')
+wordle_possible_words = wordle_possible_words_file.read().splitlines()
 
 eng_file = open('dict_5_letters.txt', 'r')
 english_dictionary_list = eng_file.read().splitlines()
@@ -105,6 +109,9 @@ def filter_possible_words(current_ranked_words: list, good_characters: str, poss
         if not(contains_possible_characters(word, possible_characters)):
             continue
 
+        if word not in wordle_possible_words:
+            continue
+
         filtered_ranked_words.append(word)
     return filtered_ranked_words
 
@@ -121,6 +128,7 @@ def build_master_words_sorted_as_list(dictionary_list: list, used_letters: list)
 
 
 def display_information(guessing_words_list: list, possible_words_list: list):
+    print("\n----\n")
     print("Possible words: ")
     print(possible_words_list)
     print(f'Possible words remaining: {len(possible_words_list)}')
@@ -129,9 +137,14 @@ def display_information(guessing_words_list: list, possible_words_list: list):
     for word in reversed(guessing_words_list):       
         
         if word_has_unique_chars(word):
+            if word not in wordle_master_words:
+                continue
+
             print(f'Best guess is: {word}')
-            if input('Valid word? y/n ') == 'y':
-                return word
+
+            
+            # if input('Valid word? y/n ') == 'y':
+            return word
     print(f'Best guess is: {guessing_words_list[-1]}')
     return guessing_words_list[-1]
 
@@ -194,8 +207,9 @@ def update_used_letters(used_letters: list, good_characters: str, possible_chara
 def main():
     used_letters = []
     master_sorted_ranked_word_list = build_master_words_sorted_as_list(english_dictionary_list, used_letters)
-    possible_words_list = master_sorted_ranked_word_list
+    possible_words_list = wordle_possible_words
     guessing_words_list = master_sorted_ranked_word_list
+
 
     while len(possible_words_list) > 0:
         best_guess_word = display_information(guessing_words_list, possible_words_list)
