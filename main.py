@@ -8,9 +8,6 @@ wordle_master_words = wordle_master_words_file.read().splitlines()
 wordle_possible_words_file = open('wordle_possible_words.txt', 'r')
 wordle_possible_words = wordle_possible_words_file.read().splitlines()
 
-eng_file = open('dict_5_letters.txt', 'r')
-english_dictionary_list = eng_file.read().splitlines()
-
 def rank_letters(words_list: list, used_letters: list) -> dict:
     letters_ranked = {}
 
@@ -109,9 +106,6 @@ def filter_possible_words(current_ranked_words: list, good_characters: str, poss
         if not(contains_possible_characters(word, possible_characters)):
             continue
 
-        if word not in wordle_possible_words:
-            continue
-
         filtered_ranked_words.append(word)
     return filtered_ranked_words
 
@@ -206,8 +200,8 @@ def update_used_letters(used_letters: list, good_characters: str, possible_chara
 
 def main():
     used_letters = []
-    master_sorted_ranked_word_list = build_master_words_sorted_as_list(english_dictionary_list, used_letters)
-    possible_words_list = wordle_possible_words
+    master_sorted_ranked_word_list = build_master_words_sorted_as_list(wordle_possible_words, used_letters)
+    possible_words_list = master_sorted_ranked_word_list
     guessing_words_list = master_sorted_ranked_word_list
 
 
