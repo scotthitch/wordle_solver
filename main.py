@@ -2,6 +2,7 @@ from calendar import c
 from collections import Counter
 WORD_LENGTH: int = 5
 
+
 wordle_master_words_file = open('wordle_master_words.txt', 'r')
 wordle_master_words = wordle_master_words_file.read().splitlines()
 
@@ -121,10 +122,12 @@ def build_master_words_sorted_as_list(dictionary_list: list, used_letters: list)
     return list((dict(sorted(words_ranked.items(), key=lambda item: item[1]))).keys())
 
 
-def display_information(guessing_words_list: list, possible_words_list: list):
-    print("\n----\n")
+def display_information(guessing_words_list: list, possible_words_list: list, guess_number: int):
+    print("\n----------------")
+    print(f"Guess {guess_number}")
+    print("----------------\n")
     print("Possible words: ")
-    print(possible_words_list)
+    print(possible_words_list, '\n')
     print(f'Possible words remaining: {len(possible_words_list)}')
     
     
@@ -199,6 +202,7 @@ def update_used_letters(used_letters: list, good_characters: str, possible_chara
     return new_used_letters
 
 def main():
+    guess_number = 1
     used_letters = []
     master_sorted_ranked_word_list = build_master_words_sorted_as_list(wordle_possible_words, used_letters)
     possible_words_list = master_sorted_ranked_word_list
@@ -206,11 +210,11 @@ def main():
 
 
     while len(possible_words_list) > 0:
-        best_guess_word = display_information(guessing_words_list, possible_words_list)
+        best_guess_word = display_information(guessing_words_list, possible_words_list, guess_number)
         good_characters, possible_characters, bad_characters =  get_all_inputs(best_guess_word)
         used_letters = update_used_letters(used_letters, good_characters, possible_characters, bad_characters)
         possible_words_list = filter_possible_words(possible_words_list, good_characters, possible_characters, bad_characters)
         guessing_words_list = build_guessing_words_sorted_list(possible_words_list, master_sorted_ranked_word_list, used_letters)
-
+        guess_number += 1
 
 main()
