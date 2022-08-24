@@ -10,9 +10,10 @@ The final answer will be displayed in the list of possible words._
 
 - You'll first be shown a list of all possible words
 - You will then be given a 'best guess' word to cut down this list
+- Input this word into Wordle and check the results
 - Input the 5 results as follows (e.g. 'nymmn'):
   - y: yes (a green letter)
   - n: no (a grey letter)
   - m: maybe (a yellow letter)
-- Keep going with these reccomendations until the 'possible words' is small
+- Keep going with these reccomendations until the 'possible words' list is small
 - Enter your final answer from the 'possible words' list
