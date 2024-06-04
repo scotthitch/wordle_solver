@@ -115,24 +115,8 @@ def display_guessing_information(best_suggestion: str, guess_number: int, possib
         print(f"  {possible_valid_words}")
         
     print(f"Next best guess is '{best_suggestion}'\n")
-    # print(possible_words_list, '\n')
-    # print(f'Possible words remaining: {len(possible_words_list)}')
+
     
-    
-    # for word in reversed(guessing_words_list):       
-        
-    #     if word_has_unique_chars(word):
-    #         if word not in wordle_master_words:
-    #             continue
-
-    #         print(f'Best guess is: {word}')
-
-            
-    #         # if input('Valid word? y/n ') == 'y':
-    #         return word
-    # print(f'Best guess is: {guessing_words_list[-1]}')
-    # return guessing_words_list[-1]
-
 def get_guessed_word():
     guess = ''
     while (len(guess) != WORD_LENGTH):
