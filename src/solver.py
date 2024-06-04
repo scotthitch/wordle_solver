@@ -106,28 +106,32 @@ def suggest_best_guess(master_words: list[str], possible_words: list[str], used_
     return max(words_ranked, key=words_ranked.get)
 
 
-# def display_information(guessing_words_list: list, possible_words_list: list, guess_number: int):
-#     print("\n----------------")
-#     print(f"Guess {guess_number}")
-#     print("----------------\n")
-#     print("Possible words: ")
-#     print(possible_words_list, '\n')
-#     print(f'Possible words remaining: {len(possible_words_list)}')
-    
-    
-#     for word in reversed(guessing_words_list):       
+def display_guessing_information(best_suggestion: str, guess_number: int, possible_valid_words: list[str]):
+    print("\n----------------")
+    print(f"Guess {guess_number}")
+    print("----------------\n")
+    print(f"There are {len(possible_valid_words)} possible words left")
+    if (len(possible_valid_words) < 10):
+        print(f"  {possible_valid_words}")
         
-#         if word_has_unique_chars(word):
-#             if word not in wordle_master_words:
-#                 continue
+    print(f"Next best guess is '{best_suggestion}'\n")
+    # print(possible_words_list, '\n')
+    # print(f'Possible words remaining: {len(possible_words_list)}')
+    
+    
+    # for word in reversed(guessing_words_list):       
+        
+    #     if word_has_unique_chars(word):
+    #         if word not in wordle_master_words:
+    #             continue
 
-#             print(f'Best guess is: {word}')
+    #         print(f'Best guess is: {word}')
 
             
-#             # if input('Valid word? y/n ') == 'y':
-#             return word
-#     print(f'Best guess is: {guessing_words_list[-1]}')
-#     return guessing_words_list[-1]
+    #         # if input('Valid word? y/n ') == 'y':
+    #         return word
+    # print(f'Best guess is: {guessing_words_list[-1]}')
+    # return guessing_words_list[-1]
 
 def get_guessed_word():
     guess = ''
@@ -196,13 +200,14 @@ def main():
     MASTER_WORDS = read_txt_file("master_words.txt")
     possible_valid_words = read_txt_file("wordle_words.txt")
     used_letters = []
+    guess_number = 1
+
     while len(possible_valid_words) > 1:
         best_suggestion = suggest_best_guess(MASTER_WORDS, possible_valid_words, used_letters)
-        print(best_suggestion)
+        display_guessing_information(best_suggestion, guess_number, possible_valid_words)
         guess_results = get_guess_results_from_input(best_suggestion)
         possible_valid_words = filter_possible_valid_words(possible_valid_words, guess_results)
-        print(possible_valid_words)
-        print(len(possible_valid_words))
+        guess_number += 1
     
 
 if __name__ == "__main__":
