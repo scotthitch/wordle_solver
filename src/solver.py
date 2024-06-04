@@ -4,9 +4,10 @@ from enum import Enum
 import string
 import sys
 
+
 class Result(Enum):
     CORRECT = 0
-    WRONG = 1
+    INCORRECT = 1
     MISPLACED = 2
 
 WORD_LENGTH: int = 5
@@ -115,19 +116,14 @@ def contains_bad_characters(word, bad_characters) -> bool:
     return False
 
 
-def filter_possible_words(current_ranked_words: list, good_characters: str, possible_characters: str, bad_characters: str):
+def word_meets_criteria(word, guess_results):
+    return False
+
+def filter_possible_valid_words(current_ranked_words: list, guess_results):
     filtered_ranked_words = []
     for word in current_ranked_words:
-        if contains_bad_characters(word, bad_characters): 
-            continue
-        
-        if not(matches_good_characters(word, good_characters)):
-            continue
-
-        if not(contains_possible_characters(word, possible_characters)):
-            continue
-
-        filtered_ranked_words.append(word)
+        if (word_meets_criteria(word, guess_results)):
+            filtered_ranked_words.append(word)
     return filtered_ranked_words
 
 
@@ -209,7 +205,7 @@ def get_guessed_word():
     return guess
 
 def get_results() -> list[Result]:
-    user_input = input("Enter results from the word (c: correct, w: wrong, m: misplaced) ")
+    user_input = input("Enter results from the word (c: correct, i: incorrect, m: misplaced) ")
 
     # Check the length is WORD_LENGTH or else call it again
     if len(user_input) != WORD_LENGTH:
@@ -224,8 +220,8 @@ def get_results() -> list[Result]:
         match char:
             case 'c':
                 results.append(Result.CORRECT)
-            case 'w':
-                results.append(Result.WRONG)
+            case 'i':
+                results.append(Result.INCORRECT)
             case 'm':
                 results.append(Result.MISPLACED)
             case _:
@@ -309,4 +305,7 @@ def main():
     #     guessing_words_list = build_guessing_words_sorted_list(possible_words_list, master_sorted_ranked_word_list, used_letters)
     #     guess_number += 1
 
-main()
+if __name__ == "__main__":
+    main()
+
+# main()
