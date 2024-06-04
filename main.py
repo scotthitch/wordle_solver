@@ -1,12 +1,25 @@
 from calendar import c
 from collections import Counter
+import sys
+
 WORD_LENGTH: int = 5
 
-wordle_master_words_file = open('master_words.txt', 'r')
-wordle_master_words = wordle_master_words_file.read().splitlines()
+def exit_program():
+    print("Exiting the progam")
+    sys.exit(1)
 
-wordle_possible_words_file = open('possible_words.txt', 'r')
-wordle_possible_words = wordle_possible_words_file.read().splitlines()
+
+def read_txt_file(file_path: str) -> list[str]:
+    try:
+        with open(file_path, 'r') as file:
+            return file.read().splitlines()
+        
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+    except Exception as e:
+        print(f"An unexpected error occurred while reading the file '{file_path}': {e}")
+
+    exit_program()    
 
 def rank_letters(words_list: list, used_letters: list) -> dict:
     letters_ranked = {}
@@ -201,19 +214,25 @@ def update_used_letters(used_letters: list, good_characters: str, possible_chara
     return new_used_letters
 
 def main():
-    guess_number = 1
-    used_letters = []
-    master_sorted_ranked_word_list = build_master_words_sorted_as_list(wordle_possible_words, used_letters)
-    possible_words_list = master_sorted_ranked_word_list
-    guessing_words_list = master_sorted_ranked_word_list
+    master_words = read_txt_file("master_words.txt")
+    wordle_words = read_txt_file("wordle_words.txt")
+
+    # print(len(master_words))
+    # print(len(wordle_words))
+
+    # guess_number = 1
+    # used_letters = []
+    # master_sorted_ranked_word_list = build_master_words_sorted_as_list(wordle_possible_words, used_letters)
+    # possible_words_list = master_sorted_ranked_word_list
+    # guessing_words_list = master_sorted_ranked_word_list
 
 
-    while len(possible_words_list) > 0:
-        best_guess_word = display_information(guessing_words_list, possible_words_list, guess_number)
-        good_characters, possible_characters, bad_characters =  get_all_inputs(best_guess_word)
-        used_letters = update_used_letters(used_letters, good_characters, possible_characters, bad_characters)
-        possible_words_list = filter_possible_words(possible_words_list, good_characters, possible_characters, bad_characters)
-        guessing_words_list = build_guessing_words_sorted_list(possible_words_list, master_sorted_ranked_word_list, used_letters)
-        guess_number += 1
+    # while len(possible_words_list) > 0:
+    #     best_guess_word = display_information(guessing_words_list, possible_words_list, guess_number)
+    #     good_characters, possible_characters, bad_characters =  get_all_inputs(best_guess_word)
+    #     used_letters = update_used_letters(used_letters, good_characters, possible_characters, bad_characters)
+    #     possible_words_list = filter_possible_words(possible_words_list, good_characters, possible_characters, bad_characters)
+    #     guessing_words_list = build_guessing_words_sorted_list(possible_words_list, master_sorted_ranked_word_list, used_letters)
+    #     guess_number += 1
 
 main()
