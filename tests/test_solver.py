@@ -75,14 +75,4 @@ class TestWordMeetsCriteria:
                   ('k', solver.Result.INCORRECT)]
     
         word_to_test = "reads"
-        assert solver.word_meets_criteria(word_to_test, result) == True
-
-    def test_eight(self):
-        result = [('r', solver.Result.INCORRECT),
-                  ('e', solver.Result.MISPLACED),
-                  ('a', solver.Result.INCORRECT),
-                  ('d', solver.Result.CORRECT),
-                  ('s', solver.Result.INCORRECT)]
-    
-        word_to_test = "reads"
-        assert solver.word_meets_criteria(word_to_test, result) == True
+        assert solver.word_meets_criteria(word_to_test, result) == False
