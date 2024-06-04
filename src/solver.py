@@ -117,7 +117,26 @@ def contains_bad_characters(word, bad_characters) -> bool:
 
 
 def word_meets_criteria(word, guess_results):
-    return False
+    for i, (char, char_result) in enumerate(guess_results):
+        match (char_result):
+            case Result.CORRECT:
+                # Return false if chars dont match
+                if char != word[i]:
+                    return False
+                
+            case Result.INCORRECT:
+                # Return false if the char exists in the word
+                if char in word:
+                    return False
+                
+            case Result.MISPLACED:
+                # Return false if the chars match
+                if char == word[i]:
+                    return False
+                # Return false if the char isn't in the word though
+                if char not in word:
+                    return False
+    return True
 
 def filter_possible_valid_words(current_ranked_words: list, guess_results):
     filtered_ranked_words = []
