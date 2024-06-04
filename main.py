@@ -2,11 +2,10 @@ from calendar import c
 from collections import Counter
 WORD_LENGTH: int = 5
 
-
-wordle_master_words_file = open('wordle_master_words.txt', 'r')
+wordle_master_words_file = open('master_words.txt', 'r')
 wordle_master_words = wordle_master_words_file.read().splitlines()
 
-wordle_possible_words_file = open('wordle_possible_words.txt', 'r')
+wordle_possible_words_file = open('possible_words.txt', 'r')
 wordle_possible_words = wordle_possible_words_file.read().splitlines()
 
 def rank_letters(words_list: list, used_letters: list) -> dict:
