@@ -1,6 +1,13 @@
 from calendar import c
 from collections import Counter
+from enum import Enum
+import string
 import sys
+
+class Result(Enum):
+    CORRECT = 0
+    WRONG = 1
+    MISPLACED = 2
 
 WORD_LENGTH: int = 5
 
@@ -22,30 +29,35 @@ def read_txt_file(file_path: str) -> list[str]:
     exit_program()    
 
 def rank_letters(words_list: list) -> dict:
-    letters_ranked = {}
+    # letters_ranked = {}
+    letters_ranked = {letter: [0,0,0,0,0] for letter in string.ascii_lowercase}
+
 
     for word in words_list:
-        for character in word:
-            if character not in letters_ranked:
-                letters_ranked[character] = 1
+        for i, character in enumerate(word):
+            # print(i)
+            letters_ranked[character][i] += 1
+            # if character not in letters_ranked:
+            #     letters_ranked[character] = 1
                 
-            else:
-                letters_ranked[character] += 1
-
+            # else:
+            #     letters_ranked[character] += 1
+    # sys.exit
     return letters_ranked
 
 def rank_words(words_list: list, ranked_letters: dict) -> dict:
     words_ranked = {}
+    # sys.exit(1)
     for word in words_list:
-        for character in word:
+        for i, character in enumerate(word):
             if character not in ranked_letters: 
                 continue
 
             if word not in words_ranked:
-                words_ranked[word] = ranked_letters[character]
+                words_ranked[word] = ranked_letters[character][i]
                 continue
 
-            words_ranked[word] += ranked_letters[character]
+            words_ranked[word] += ranked_letters[character][i]
     return words_ranked
 
 
@@ -118,6 +130,7 @@ def filter_possible_words(current_ranked_words: list, good_characters: str, poss
         filtered_ranked_words.append(word)
     return filtered_ranked_words
 
+
 # def build_guessing_words_sorted_list(possible_words_list: list, master_word_list: list, used_letters: list) -> list:
 #     letters_ranked = rank_letters(possible_words_list, used_letters)
 #     words_ranked = rank_words(master_word_list, letters_ranked)
@@ -126,11 +139,11 @@ def filter_possible_words(current_ranked_words: list, good_characters: str, poss
 
 def suggest_best_guess(master_words: list[str], possible_words: list[str]) -> str:
     letters_ranked = rank_letters(possible_words)
-    print(letters_ranked)
+    # print(letters_ranked)
     words_ranked = rank_words(master_words, letters_ranked)
-    print(max(words_ranked, key=words_ranked.get))
-    print(len(words_ranked))
-    return list((dict(sorted(words_ranked.items(), key=lambda item: item[1]))).keys())
+    return max(words_ranked, key=words_ranked.get)
+    # print(len(words_ranked))
+    # return list((dict(sorted(words_ranked.items(), key=lambda item: item[1]))).keys())
 
 # def build_master_words_sorted_as_list(dictionary_list: list, used_letters: list) -> list:
 #     letters_ranked = rank_letters(dictionary_list, used_letters)
@@ -162,11 +175,6 @@ def display_information(guessing_words_list: list, possible_words_list: list, gu
     return guessing_words_list[-1]
 
 
-def get_a_input(characters_type: str):
-    characters = ''
-    while (len(characters) != 5):
-        characters = input(f'Enter 5 {characters_type} characters: ')    
-    return characters
 
 
 def get_all_inputs(best_guess_word: str):
@@ -176,7 +184,7 @@ def get_all_inputs(best_guess_word: str):
     bad_characters = ['*', '*', '*', '*', '*']
 
     values = ''
-    while (len(values) != 5):
+    while (len(values) != WORD_LENGTH):
         values = input(f'Enter all values: ')    
 
     for index, value in enumerate(values):
@@ -193,6 +201,55 @@ def get_all_inputs(best_guess_word: str):
             continue
 
     return good_characters, possible_characters, bad_characters
+
+def get_guessed_word():
+    guess = ''
+    while (len(guess) != WORD_LENGTH):
+        guess = input('Enter guessed word: ')    
+    return guess
+
+def get_results() -> list[Result]:
+    user_input = input("Enter results from the word (c: correct, w: wrong, m: misplaced) ")
+
+    # Check the length is WORD_LENGTH or else call it again
+    if len(user_input) != WORD_LENGTH:
+        print(f"String length must be {WORD_LENGTH}.")
+        return get_results()
+    
+
+    # Build results array using enums 
+    # Check all inputs are 'w', 'c' or 'm' or else call it again
+    results = []
+    for char in user_input:
+        match char:
+            case 'c':
+                results.append(Result.CORRECT)
+            case 'w':
+                results.append(Result.WRONG)
+            case 'm':
+                results.append(Result.MISPLACED)
+            case _:
+                print("Invalid character. Only 'w', 'c', or 'm' are allowed.")
+                return get_results()
+    
+    return results
+
+def get_guess_results_from_input():
+    guessed_word = get_guessed_word()
+    results = get_results()
+
+    if (len(guessed_word) != WORD_LENGTH or len(results) != WORD_LENGTH):
+        print(f"Somehow lengths aren't {WORD_LENGTH}")
+        exit_program()
+
+    
+    result_array_tuple = []
+    for i in range(len(guessed_word)):
+        result_array_tuple.append((guessed_word[i], results[i]))
+    
+    return result_array_tuple
+    
+
 
 def update_used_indicies(used_indicies: list, good_characters: str) -> list:
     for index, character in enumerate(good_characters):
@@ -226,11 +283,9 @@ def main():
 
     # while len(possible_valid_words) > 0:
     best_suggestion = suggest_best_guess(MASTER_WORDS, possible_valid_words)
-    print(best_suggestion)
-        # display_best_suggestion(best_suggestion)
-        # next_guess = get_user_next_guess_from_input()
-        # guess_results = get_guess_results_from_input()
-        # possible_valid_words = filter_possible_valid_words(possible_valid_words)
+    guess_results = get_guess_results_from_input()
+    # possible_valid_words = filter_possible_valid_words(possible_valid_words, guess_results)
+    
 
 
 
