@@ -21,15 +21,11 @@ def read_txt_file(file_path: str) -> list[str]:
 
     exit_program()    
 
-def rank_letters(words_list: list, used_letters: list) -> dict:
+def rank_letters(words_list: list) -> dict:
     letters_ranked = {}
 
     for word in words_list:
         for character in word:
-            if character in used_letters:
-                letters_ranked[character] = 0
-                continue
-
             if character not in letters_ranked:
                 letters_ranked[character] = 1
                 
@@ -122,16 +118,24 @@ def filter_possible_words(current_ranked_words: list, good_characters: str, poss
         filtered_ranked_words.append(word)
     return filtered_ranked_words
 
-def build_guessing_words_sorted_list(possible_words_list: list, master_word_list: list, used_letters: list) -> list:
-    letters_ranked = rank_letters(possible_words_list, used_letters)
-    words_ranked = rank_words(master_word_list, letters_ranked)
-    return list((dict(sorted(words_ranked.items(), key=lambda item: item[1]))).keys())
+# def build_guessing_words_sorted_list(possible_words_list: list, master_word_list: list, used_letters: list) -> list:
+#     letters_ranked = rank_letters(possible_words_list, used_letters)
+#     words_ranked = rank_words(master_word_list, letters_ranked)
+#     return list((dict(sorted(words_ranked.items(), key=lambda item: item[1]))).keys())
 
 
-def build_master_words_sorted_as_list(dictionary_list: list, used_letters: list) -> list:
-    letters_ranked = rank_letters(dictionary_list, used_letters)
-    words_ranked = rank_words(dictionary_list, letters_ranked)
+def suggest_best_guess(master_words: list[str], possible_words: list[str]) -> str:
+    letters_ranked = rank_letters(possible_words)
+    print(letters_ranked)
+    words_ranked = rank_words(master_words, letters_ranked)
+    print(max(words_ranked, key=words_ranked.get))
+    print(len(words_ranked))
     return list((dict(sorted(words_ranked.items(), key=lambda item: item[1]))).keys())
+
+# def build_master_words_sorted_as_list(dictionary_list: list, used_letters: list) -> list:
+#     letters_ranked = rank_letters(dictionary_list, used_letters)
+#     words_ranked = rank_words(dictionary_list, letters_ranked)
+#     return list((dict(sorted(words_ranked.items(), key=lambda item: item[1]))).keys())
 
 
 def display_information(guessing_words_list: list, possible_words_list: list, guess_number: int):
@@ -217,15 +221,16 @@ def main():
     MASTER_WORDS = read_txt_file("master_words.txt")
     possible_valid_words = read_txt_file("wordle_words.txt")
 
-    n_guesses: int = 0
+    # n_guesses: int = 0
 
 
-    while len(possible_valid_words) > 0:
-        best_suggestion = suggest_best_guess(possible_valid_words)
-        display_best_suggestion(best_suggestion)
-        next_guess = get_user_next_guess_from_input()
-        guess_results = get_guess_results_from_input()
-        possible_valid_words = filter_possible_valid_words(possible_valid_words)
+    # while len(possible_valid_words) > 0:
+    best_suggestion = suggest_best_guess(MASTER_WORDS, possible_valid_words)
+    print(best_suggestion)
+        # display_best_suggestion(best_suggestion)
+        # next_guess = get_user_next_guess_from_input()
+        # guess_results = get_guess_results_from_input()
+        # possible_valid_words = filter_possible_valid_words(possible_valid_words)
 
 
 
@@ -236,7 +241,7 @@ def main():
 
     # guess_number = 1
     # used_letters = []
-    # master_sorted_ranked_word_list = build_master_words_sorted_as_list(wordle_possible_words, used_letters)
+    # master_sorted_ranked_word_list = build_master_words_sorted_as_list(MASTER_WORDS, used_letters)
     # possible_words_list = master_sorted_ranked_word_list
     # guessing_words_list = master_sorted_ranked_word_list
 
