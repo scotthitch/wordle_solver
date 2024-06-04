@@ -6,7 +6,7 @@ import sys
 
 class Result(Enum):
     CORRECT = 0
-    INCORRECT = 1
+    WRONG = 1
     MISPLACED = 2
 
 WORD_LENGTH: int = 5
@@ -115,32 +115,19 @@ def contains_bad_characters(word, bad_characters) -> bool:
     return False
 
 
-def word_meets_criteria(word, guess_results):
-    for i, (char, result) in enumerate(guess_results):
-        match (result):
-            case Result.CORRECT:
-                if (char != word[i]):
-                    return False
-                
-            case Result.INCORRECT:
-                if (char in word):
-                    return False
-                
-            case Result.MISPLACED:
-                if (char == word[i]):
-                    return False
-                
-                if (char not in word):
-                    return False
-
-    return True
-
-def filter_possible_valid_words(possible_valid_words: list, guess_results):
+def filter_possible_words(current_ranked_words: list, good_characters: str, possible_characters: str, bad_characters: str):
     filtered_ranked_words = []
-    for word in possible_valid_words:
-            if (word_meets_criteria(word, guess_results)):
-                filtered_ranked_words.append(word)
+    for word in current_ranked_words:
+        if contains_bad_characters(word, bad_characters): 
+            continue
+        
+        if not(matches_good_characters(word, good_characters)):
+            continue
 
+        if not(contains_possible_characters(word, possible_characters)):
+            continue
+
+        filtered_ranked_words.append(word)
     return filtered_ranked_words
 
 
@@ -222,7 +209,7 @@ def get_guessed_word():
     return guess
 
 def get_results() -> list[Result]:
-    user_input = input("Enter results from the word (c: correct, i: incorrect, m: misplaced) ")
+    user_input = input("Enter results from the word (c: correct, w: wrong, m: misplaced) ")
 
     # Check the length is WORD_LENGTH or else call it again
     if len(user_input) != WORD_LENGTH:
@@ -237,19 +224,18 @@ def get_results() -> list[Result]:
         match char:
             case 'c':
                 results.append(Result.CORRECT)
-            case 'i':
-                results.append(Result.INCORRECT)
+            case 'w':
+                results.append(Result.WRONG)
             case 'm':
                 results.append(Result.MISPLACED)
             case _:
-                print("Invalid character. Only 'c', 'i', or 'm' are allowed.")
+                print("Invalid character. Only 'w', 'c', or 'm' are allowed.")
                 return get_results()
     
     return results
 
-def get_guess_results_from_input(best_suggestion):
-    # guessed_word = get_guessed_word()
-    guessed_word = best_suggestion
+def get_guess_results_from_input():
+    guessed_word = get_guessed_word()
     results = get_results()
 
     if (len(guessed_word) != WORD_LENGTH or len(results) != WORD_LENGTH):
@@ -297,11 +283,8 @@ def main():
 
     while len(possible_valid_words) > 0:
         best_suggestion = suggest_best_guess(MASTER_WORDS, possible_valid_words)
-        print(best_suggestion)
-        guess_results = get_guess_results_from_input(best_suggestion)
+        guess_results = get_guess_results_from_input()
         possible_valid_words = filter_possible_valid_words(possible_valid_words, guess_results)
-        print(len(possible_valid_words))
-        
     
 
 
