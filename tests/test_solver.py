@@ -11,7 +11,7 @@ class TestWordMeetsCriteria:
                   ('e', solver.Result.INCORRECT)]
         
         word_to_test = "groin"
-        assert solver.word_meets_criteria(word_to_test, result)
+        assert solver.word_meets_criteria(word_to_test, result) == True
 
     def test_two(self):
         result = [('g', solver.Result.CORRECT),
@@ -21,7 +21,7 @@ class TestWordMeetsCriteria:
                   ('n', solver.Result.INCORRECT)]
         
         word_to_test = "groom"
-        assert solver.word_meets_criteria(word_to_test, result)
+        assert solver.word_meets_criteria(word_to_test, result) == True
 
 
     def test_three(self):
@@ -44,3 +44,45 @@ class TestWordMeetsCriteria:
     
         word_to_test = "frame"
         assert solver.word_meets_criteria(word_to_test, result) == False
+
+    
+    def test_five(self):
+        result = [('b', solver.Result.INCORRECT),
+                  ('r', solver.Result.INCORRECT),
+                  ('i', solver.Result.INCORRECT),
+                  ('n', solver.Result.INCORRECT),
+                  ('g', solver.Result.INCORRECT)]
+    
+        word_to_test = "think"
+        assert solver.word_meets_criteria(word_to_test, result) == False
+
+    def test_six(self):
+        result = [('t', solver.Result.INCORRECT),
+                  ('h', solver.Result.INCORRECT),
+                  ('i', solver.Result.INCORRECT),
+                  ('n', solver.Result.INCORRECT),
+                  ('k', solver.Result.INCORRECT)]
+    
+        word_to_test = "plead"
+        assert solver.word_meets_criteria(word_to_test, result) == True
+
+
+    def test_seven(self):
+        result = [('b', solver.Result.INCORRECT),
+                  ('l', solver.Result.MISPLACED),
+                  ('e', solver.Result.INCORRECT),
+                  ('a', solver.Result.CORRECT),
+                  ('k', solver.Result.INCORRECT)]
+    
+        word_to_test = "reads"
+        assert solver.word_meets_criteria(word_to_test, result) == True
+
+    def test_eight(self):
+        result = [('r', solver.Result.INCORRECT),
+                  ('e', solver.Result.MISPLACED),
+                  ('a', solver.Result.INCORRECT),
+                  ('d', solver.Result.CORRECT),
+                  ('s', solver.Result.INCORRECT)]
+    
+        word_to_test = "reads"
+        assert solver.word_meets_criteria(word_to_test, result) == True
