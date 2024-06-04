@@ -2,7 +2,7 @@ from calendar import c
 from collections import Counter
 from enum import Enum
 import string
-import sys
+import util
 
 
 class Result(Enum):
@@ -11,22 +11,6 @@ class Result(Enum):
     MISPLACED = 2
 
 WORD_LENGTH: int = 5
-
-def exit_program():
-    print("Exiting the progam")
-    sys.exit(1)
-
-def read_txt_file(file_path: str) -> list[str]:
-    try:
-        with open(file_path, 'r') as file:
-            return file.read().splitlines()
-        
-    except FileNotFoundError:
-        print(f"Error: The file '{file_path}' was not found.")
-    except Exception as e:
-        print(f"An unexpected error occurred while reading the file '{file_path}': {e}")
-
-    exit_program()    
 
 def rank_letters(words_list: list, used_letters: list[str]) -> dict:
     # letters_ranked = {}
@@ -41,7 +25,7 @@ def rank_letters(words_list: list, used_letters: list[str]) -> dict:
 
 def rank_words(words_list: list, ranked_letters: dict) -> dict:
     words_ranked = {}
-    # sys.exit(1)
+    
     for word in words_list:
         for i, character in enumerate(word):
             if character not in ranked_letters: 
@@ -116,7 +100,7 @@ def display_guessing_information(best_suggestion: str, guess_number: int, possib
         
     print(f"Next best guess is '{best_suggestion}'\n")
 
-    
+
 def get_guessed_word():
     guess = ''
     while (len(guess) != WORD_LENGTH):
@@ -156,7 +140,7 @@ def get_guess_results_from_input(best_suggestion):
 
     if (len(guessed_word) != WORD_LENGTH or len(results) != WORD_LENGTH):
         print(f"Somehow lengths aren't {WORD_LENGTH}")
-        exit_program()
+        util.exit_program()
 
     
     result_array_tuple = []
@@ -181,8 +165,8 @@ def main():
 
 
 
-    MASTER_WORDS = read_txt_file("master_words.txt")
-    possible_valid_words = read_txt_file("wordle_words.txt")
+    MASTER_WORDS = util.read_txt_file("master_words.txt")
+    possible_valid_words = util.read_txt_file("wordle_words.txt")
     used_letters = []
     guess_number = 1
 
