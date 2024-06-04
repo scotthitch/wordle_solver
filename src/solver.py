@@ -16,7 +16,6 @@ def exit_program():
     print("Exiting the progam")
     sys.exit(1)
 
-
 def read_txt_file(file_path: str) -> list[str]:
     try:
         with open(file_path, 'r') as file:
@@ -29,21 +28,15 @@ def read_txt_file(file_path: str) -> list[str]:
 
     exit_program()    
 
-def rank_letters(words_list: list) -> dict:
+def rank_letters(words_list: list, used_letters: list[str]) -> dict:
     # letters_ranked = {}
     letters_ranked = {letter: [0,0,0,0,0] for letter in string.ascii_lowercase}
 
 
     for word in words_list:
         for i, character in enumerate(word):
-            # print(i)
-            letters_ranked[character][i] += 1
-            # if character not in letters_ranked:
-            #     letters_ranked[character] = 1
-                
-            # else:
-            #     letters_ranked[character] += 1
-    # sys.exit
+            if character not in used_letters:
+                letters_ranked[character][i] += 1
     return letters_ranked
 
 def rank_words(words_list: list, ranked_letters: dict) -> dict:
@@ -62,59 +55,6 @@ def rank_words(words_list: list, ranked_letters: dict) -> dict:
     return words_ranked
 
 
-def word_has_unique_chars(word) -> bool:
-    frequency = Counter(word)
- 
-    if(len(frequency) == len(word)):
-        return True
-    else:
-        return False
-
-# def word
-
-def find_best_word(ranked_words_list: list) -> str:
-    for word in reversed(ranked_words_list):
-        if word_has_unique_chars(word):
-            return word
-
-
-
-def matches_good_characters(word, good_characters) -> bool:
-    for index in range(WORD_LENGTH):
-        if good_characters[index] == '*': 
-            continue
-
-        if good_characters[index] != word[index]:
-            return False
-
-    return True 
-        
-
-def contains_possible_characters(word, possible_characters) -> bool:
-    """ Checks if the words contains each character but not in that exact position """
-    for index, character in enumerate(possible_characters):
-        if character == '*':
-            continue
-
-        if character == word[index]:
-            return False
-
-        if character not in word:
-            return False
-
-    return True
-
-
-def contains_bad_characters(word, bad_characters) -> bool:
-    for character in bad_characters:
-        if character == '*': 
-            continue
-
-        if character in word:
-            return True
-
-    return False
-
 def correct_char_criteria_met(char: str, index: int, word: str):
     return char == word[index]
 
@@ -124,22 +64,32 @@ def incorrect_char_criteria_met(char: str, word: str):
 def misplaced_char_criteria_met(char: str, index: int, word: str):
     return char != word[index] and char in word
 
-def word_meets_all_criteria(word, guess_results):
+def replace_char_at_index(original_str: str, new_char: str, index: int):
+    new_str = original_str[:index] + new_char + original_str[index+1:]
+    return new_str
+
+def word_meets_all_criteria(word: str, guess_results):
+    
+
     # Loop through all characters in word and check that each criteria is met
     for i, (char, char_result) in enumerate(guess_results):
-        match (char_result):
-            case Result.CORRECT:
-                if not correct_char_criteria_met(char, i, word):
-                    return False
-                
-            case Result.INCORRECT:
-                if not incorrect_char_criteria_met(char, word):
-                    return False
-                
-            case Result.MISPLACED:
-                if not misplaced_char_criteria_met(char, i, word):
-                    return False
-                
+        if char_result == Result.CORRECT:
+            if not correct_char_criteria_met(char, i, word):
+                return False
+            word = replace_char_at_index(word, "_", i)
+            
+    for i, (char, char_result) in enumerate(guess_results):
+        if char_result == Result.MISPLACED:
+            if not misplaced_char_criteria_met(char, i, word):
+                return False
+            word = word.replace(char, '_')
+
+
+    for i, (char, char_result) in enumerate(guess_results):
+        if char_result == Result.INCORRECT:
+            if not incorrect_char_criteria_met(char, word):
+                return False
+            
     return True
 
 def filter_possible_valid_words(current_ranked_words: list, guess_results):
@@ -149,77 +99,35 @@ def filter_possible_valid_words(current_ranked_words: list, guess_results):
             filtered_ranked_words.append(word)
     return filtered_ranked_words
 
-
-# def build_guessing_words_sorted_list(possible_words_list: list, master_word_list: list, used_letters: list) -> list:
-#     letters_ranked = rank_letters(possible_words_list, used_letters)
-#     words_ranked = rank_words(master_word_list, letters_ranked)
-#     return list((dict(sorted(words_ranked.items(), key=lambda item: item[1]))).keys())
-
-
-def suggest_best_guess(master_words: list[str], possible_words: list[str]) -> str:
-    letters_ranked = rank_letters(possible_words)
+def suggest_best_guess(master_words: list[str], possible_words: list[str], used_letters: list[str]) -> str:
+    letters_ranked = rank_letters(possible_words, used_letters)
     # print(letters_ranked)
     words_ranked = rank_words(master_words, letters_ranked)
     return max(words_ranked, key=words_ranked.get)
-    # print(len(words_ranked))
-    # return list((dict(sorted(words_ranked.items(), key=lambda item: item[1]))).keys())
-
-# def build_master_words_sorted_as_list(dictionary_list: list, used_letters: list) -> list:
-#     letters_ranked = rank_letters(dictionary_list, used_letters)
-#     words_ranked = rank_words(dictionary_list, letters_ranked)
-#     return list((dict(sorted(words_ranked.items(), key=lambda item: item[1]))).keys())
 
 
-def display_information(guessing_words_list: list, possible_words_list: list, guess_number: int):
-    print("\n----------------")
-    print(f"Guess {guess_number}")
-    print("----------------\n")
-    print("Possible words: ")
-    print(possible_words_list, '\n')
-    print(f'Possible words remaining: {len(possible_words_list)}')
+# def display_information(guessing_words_list: list, possible_words_list: list, guess_number: int):
+#     print("\n----------------")
+#     print(f"Guess {guess_number}")
+#     print("----------------\n")
+#     print("Possible words: ")
+#     print(possible_words_list, '\n')
+#     print(f'Possible words remaining: {len(possible_words_list)}')
     
     
-    for word in reversed(guessing_words_list):       
+#     for word in reversed(guessing_words_list):       
         
-        if word_has_unique_chars(word):
-            if word not in wordle_master_words:
-                continue
+#         if word_has_unique_chars(word):
+#             if word not in wordle_master_words:
+#                 continue
 
-            print(f'Best guess is: {word}')
+#             print(f'Best guess is: {word}')
 
             
-            # if input('Valid word? y/n ') == 'y':
-            return word
-    print(f'Best guess is: {guessing_words_list[-1]}')
-    return guessing_words_list[-1]
-
-
-
-
-def get_all_inputs(best_guess_word: str):
-    """ Gets user input """
-    good_characters = ['*', '*', '*', '*', '*']
-    possible_characters = ['*', '*', '*', '*', '*']
-    bad_characters = ['*', '*', '*', '*', '*']
-
-    values = ''
-    while (len(values) != WORD_LENGTH):
-        values = input(f'Enter all values: ')    
-
-    for index, value in enumerate(values):
-        if value == 'y':
-            good_characters[index] = best_guess_word[index]
-            continue
-
-        if value == 'm':
-            possible_characters[index] = best_guess_word[index]
-            continue
-
-        if value == 'n':
-            bad_characters[index] = best_guess_word[index]
-            continue
-
-    return good_characters, possible_characters, bad_characters
+#             # if input('Valid word? y/n ') == 'y':
+#             return word
+#     print(f'Best guess is: {guessing_words_list[-1]}')
+#     return guessing_words_list[-1]
 
 def get_guessed_word():
     guess = ''
@@ -248,13 +156,14 @@ def get_results() -> list[Result]:
             case 'm':
                 results.append(Result.MISPLACED)
             case _:
-                print("Invalid character. Only 'w', 'c', or 'm' are allowed.")
+                print("Invalid character. Only 'c', 'i', or 'm' are allowed.")
                 return get_results()
     
     return results
 
-def get_guess_results_from_input():
-    guessed_word = get_guessed_word()
+def get_guess_results_from_input(best_suggestion):
+    # guessed_word = get_guessed_word()
+    guessed_word = best_suggestion
     results = get_results()
 
     if (len(guessed_word) != WORD_LENGTH or len(results) != WORD_LENGTH):
@@ -269,64 +178,32 @@ def get_guess_results_from_input():
     return result_array_tuple
     
 
-
-def update_used_indicies(used_indicies: list, good_characters: str) -> list:
-    for index, character in enumerate(good_characters):
-        if character != '*':
-            used_indicies[index] = True
-    return used_indicies
-
-def update_used_letters(used_letters: list, good_characters: str, possible_characters: str, bad_characters: str) -> list:
-    new_used_letters = used_letters
-
-    for character in good_characters:
-        if character != '*':
-            new_used_letters.append(character)
-
-    for character in possible_characters:
-        if character != '*':
-            new_used_letters.append(character)
-        
-    for character in bad_characters:
-        if character != '*':
-            new_used_letters.append(character)
-        
-    return new_used_letters
-
 def main():
+    # n_guesses: int = 0
+    # def test_one(self):
+        # pdb.set_trace()
+    # result = [('b', Result.INCORRECT),
+    #             ('o', Result.INCORRECT),
+    #             ('n', Result.INCORRECT),
+    #             ('n', Result.CORRECT),
+    #             ('y', Result.INCORRECT)]
+    
+    # word_to_test = "flint"
+    # print(word_meets_all_criteria(word_to_test, result))
+
+
+
     MASTER_WORDS = read_txt_file("master_words.txt")
     possible_valid_words = read_txt_file("wordle_words.txt")
-
-    # n_guesses: int = 0
-
-
-    while len(possible_valid_words) > 0:
-        best_suggestion = suggest_best_guess(MASTER_WORDS, possible_valid_words)
-        guess_results = get_guess_results_from_input()
+    used_letters = []
+    while len(possible_valid_words) > 1:
+        best_suggestion = suggest_best_guess(MASTER_WORDS, possible_valid_words, used_letters)
+        print(best_suggestion)
+        guess_results = get_guess_results_from_input(best_suggestion)
         possible_valid_words = filter_possible_valid_words(possible_valid_words, guess_results)
+        print(possible_valid_words)
+        print(len(possible_valid_words))
     
-
-
-
-    # while 
-
-    # print(len(master_words))
-    # print(len(wordle_words))
-
-    # guess_number = 1
-    # used_letters = []
-    # master_sorted_ranked_word_list = build_master_words_sorted_as_list(MASTER_WORDS, used_letters)
-    # possible_words_list = master_sorted_ranked_word_list
-    # guessing_words_list = master_sorted_ranked_word_list
-
-
-    # while len(possible_words_list) > 0:
-    #     best_guess_word = display_information(guessing_words_list, possible_words_list, guess_number)
-    #     good_characters, possible_characters, bad_characters =  get_all_inputs(best_guess_word)
-    #     used_letters = update_used_letters(used_letters, good_characters, possible_characters, bad_characters)
-    #     possible_words_list = filter_possible_words(possible_words_list, good_characters, possible_characters, bad_characters)
-    #     guessing_words_list = build_guessing_words_sorted_list(possible_words_list, master_sorted_ranked_word_list, used_letters)
-    #     guess_number += 1
 
 if __name__ == "__main__":
     main()
