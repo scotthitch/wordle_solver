@@ -11,7 +11,7 @@ class TestWordMeetsCriteria:
                   ('e', solver.Result.INCORRECT)]
         
         word_to_test = "groin"
-        assert solver.word_meets_criteria(word_to_test, result) == True
+        assert solver.word_meets_all_criteria(word_to_test, result) == True
 
     def test_two(self):
         result = [('g', solver.Result.CORRECT),
@@ -21,7 +21,7 @@ class TestWordMeetsCriteria:
                   ('n', solver.Result.INCORRECT)]
         
         word_to_test = "groom"
-        assert solver.word_meets_criteria(word_to_test, result) == True
+        assert solver.word_meets_all_criteria(word_to_test, result) == True
 
 
     def test_three(self):
@@ -32,7 +32,7 @@ class TestWordMeetsCriteria:
                   ('n', solver.Result.CORRECT)]
     
         word_to_test = "champ"
-        assert solver.word_meets_criteria(word_to_test, result) == False
+        assert solver.word_meets_all_criteria(word_to_test, result) == False
 
 
     def test_four(self):
@@ -43,7 +43,7 @@ class TestWordMeetsCriteria:
                   ('p', solver.Result.INCORRECT)]
     
         word_to_test = "frame"
-        assert solver.word_meets_criteria(word_to_test, result) == False
+        assert solver.word_meets_all_criteria(word_to_test, result) == False
 
     
     def test_five(self):
@@ -54,7 +54,7 @@ class TestWordMeetsCriteria:
                   ('g', solver.Result.INCORRECT)]
     
         word_to_test = "think"
-        assert solver.word_meets_criteria(word_to_test, result) == False
+        assert solver.word_meets_all_criteria(word_to_test, result) == False
 
     def test_six(self):
         result = [('t', solver.Result.INCORRECT),
@@ -64,7 +64,7 @@ class TestWordMeetsCriteria:
                   ('k', solver.Result.INCORRECT)]
     
         word_to_test = "plead"
-        assert solver.word_meets_criteria(word_to_test, result) == True
+        assert solver.word_meets_all_criteria(word_to_test, result) == True
 
 
     def test_seven(self):
@@ -75,4 +75,4 @@ class TestWordMeetsCriteria:
                   ('k', solver.Result.INCORRECT)]
     
         word_to_test = "reads"
-        assert solver.word_meets_criteria(word_to_test, result) == False
+        assert solver.word_meets_all_criteria(word_to_test, result) == False

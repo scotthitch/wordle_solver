@@ -116,7 +116,8 @@ def contains_bad_characters(word, bad_characters) -> bool:
     return False
 
 
-def word_meets_criteria(word, guess_results):
+def word_meets_all_criteria(word, guess_results):
+
     for i, (char, char_result) in enumerate(guess_results):
         match (char_result):
             case Result.CORRECT:
@@ -141,7 +142,7 @@ def word_meets_criteria(word, guess_results):
 def filter_possible_valid_words(current_ranked_words: list, guess_results):
     filtered_ranked_words = []
     for word in current_ranked_words:
-        if (word_meets_criteria(word, guess_results)):
+        if (word_meets_all_criteria(word, guess_results)):
             filtered_ranked_words.append(word)
     return filtered_ranked_words
 
