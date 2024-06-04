@@ -214,8 +214,22 @@ def update_used_letters(used_letters: list, good_characters: str, possible_chara
     return new_used_letters
 
 def main():
-    master_words = read_txt_file("master_words.txt")
-    wordle_words = read_txt_file("wordle_words.txt")
+    MASTER_WORDS = read_txt_file("master_words.txt")
+    possible_valid_words = read_txt_file("wordle_words.txt")
+
+    n_guesses: int = 0
+
+
+    while len(possible_valid_words) > 0:
+        best_suggestion = suggest_best_guess(possible_valid_words)
+        display_best_suggestion(best_suggestion)
+        next_guess = get_user_next_guess_from_input()
+        guess_results = get_guess_results_from_input()
+        possible_valid_words = filter_possible_valid_words(possible_valid_words)
+
+
+
+    # while 
 
     # print(len(master_words))
     # print(len(wordle_words))
