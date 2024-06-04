@@ -115,28 +115,31 @@ def contains_bad_characters(word, bad_characters) -> bool:
 
     return False
 
+def correct_char_criteria_met(char: str, index: int, word: str):
+    return char == word[index]
+
+def incorrect_char_criteria_met(char: str, word: str):
+    return char not in word
+
+def misplaced_char_criteria_met(char: str, index: int, word: str):
+    return char != word[index] and char in word
 
 def word_meets_all_criteria(word, guess_results):
-
+    # Loop through all characters in word and check that each criteria is met
     for i, (char, char_result) in enumerate(guess_results):
         match (char_result):
             case Result.CORRECT:
-                # Return false if chars dont match
-                if char != word[i]:
+                if not correct_char_criteria_met(char, i, word):
                     return False
                 
             case Result.INCORRECT:
-                # Return false if the char exists in the word
-                if char in word:
+                if not incorrect_char_criteria_met(char, word):
                     return False
                 
             case Result.MISPLACED:
-                # Return false if the chars match
-                if char == word[i]:
+                if not misplaced_char_criteria_met(char, i, word):
                     return False
-                # Return false if the char isn't in the word though
-                if char not in word:
-                    return False
+                
     return True
 
 def filter_possible_valid_words(current_ranked_words: list, guess_results):
