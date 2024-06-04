@@ -3,6 +3,8 @@ from src import solver
 
 
 class TestCorrrectCharCriteriaMet:
+    # Test for multiple locations
+
     # Could make tests for if index out of range but ceebs
 
     def test_charInWordSameIndex_assertTrue(self):
@@ -28,6 +30,8 @@ class TestCorrrectCharCriteriaMet:
 
 
 class TestIncorrrectCharCriteriaMet:
+    # Test for multiple locations
+
     def test_charNotInWord_assertTrue(self):
         char = 'z'
         word = "bring"
@@ -42,18 +46,33 @@ class TestIncorrrectCharCriteriaMet:
 
 
 class TestMisplacedCharCriteriaMet:
-    def test_charInWordDifferentIndex_assertTrue(self):
+    # Test for multiple locations
+    def test_charInDifferentIndex_assertTrue(self):
         char = 'g'
         index = 2
         word = "bring"
 
         assert solver.misplaced_char_criteria_met(char, index, word) == True
 
-    def test_charInWordSameIndex_assertFalse(self):
+    def test_charInDifferentIndexAndOthers_assertTrue(self):
+        char = 'i'
+        index = 0
+        word = "limit"
+        
+        assert solver.misplaced_char_criteria_met(char, index, word) == True
+
+    def test_charInSameIndex_assertFalse(self):
         char = 'n'
         index = 3
         word = "think"
 
+        assert solver.misplaced_char_criteria_met(char, index, word) == False
+
+    def test_charInSameIndexAndOthers_assertFalse(self):
+        char = 'e'
+        index = 1
+        word = "fewer"
+        
         assert solver.misplaced_char_criteria_met(char, index, word) == False
 
     def test_charNotInWord_assertFalse(self):
@@ -64,15 +83,15 @@ class TestMisplacedCharCriteriaMet:
         assert solver.misplaced_char_criteria_met(char, index, word) == False
 
 # class TestWordMeetsCriteria:
-    # def test_one(self):
-    #     result = [('s', solver.Result.INCORRECT),
-    #               ('l', solver.Result.INCORRECT),
-    #               ('a', solver.Result.INCORRECT),
-    #               ('t', solver.Result.INCORRECT),
-    #               ('e', solver.Result.INCORRECT)]
+#     def test_one(self):
+#         result = [('b', solver.Result.INCORRECT),
+#                   ('o', solver.Result.INCORRECT),
+#                   ('n', solver.Result.INCORRECT),
+#                   ('n', solver.Result.CORRECT),
+#                   ('y', solver.Result.INCORRECT)]
         
-    #     word_to_test = "groin"
-    #     assert solver.word_meets_all_criteria(word_to_test, result) == True
+#         word_to_test = "flint"
+#         assert solver.word_meets_all_criteria(word_to_test, result) == True
 
     # def test_two(self):
     #     result = [('g', solver.Result.CORRECT),
