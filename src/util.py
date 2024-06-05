@@ -1,11 +1,12 @@
 import sys
+from typing import List
 
 def exit_program():
     print("Exiting the progam")
     sys.exit(1)
 
 
-def read_txt_file(file_path: str) -> list[str]:
+def read_txt_file(file_path: str) -> List[str]:
     try:
         with open(file_path, 'r') as file:
             return file.read().splitlines()

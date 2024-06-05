@@ -11,7 +11,7 @@ class Result(Enum):
 
 WORD_LENGTH: int = 5
 
-def rank_letters(words_list: list, used_letters: list[str]) -> dict:
+def rank_letters(words_list: list, used_letters: str) -> dict:
     # letters_ranked = {}
     letters_ranked = {letter: [0,0,0,0,0] for letter in string.ascii_lowercase}
 
@@ -82,12 +82,12 @@ def filter_possible_valid_words(current_ranked_words: list, guess_results):
             filtered_ranked_words.append(word)
     return filtered_ranked_words
 
-def suggest_best_guess(master_words: list[str], possible_words: list[str], used_letters: list[str]) -> str:
+def suggest_best_guess(master_words: list[str], possible_words: list[str], used_letters: str) -> str:
     letters_ranked = rank_letters(possible_words, used_letters)
     words_ranked = rank_words(master_words, letters_ranked)
     
     best_guess = max(words_ranked, key=words_ranked.get)
-    plotting.plot_letter_distribution(letters_ranked, best_guess)
+    # plotting.plot_letter_distribution(letters_ranked, best_guess)
     return best_guess
 
 
@@ -101,8 +101,6 @@ def display_guessing_information(best_suggestion: str, guess_number: int, possib
     else:
         print(f"The solution is '{possible_valid_words[0]}'\n")
         
-        
-
 
 def get_guessed_word():
     guess = ''
