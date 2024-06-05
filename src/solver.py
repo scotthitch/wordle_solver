@@ -1,6 +1,7 @@
 from enum import Enum
 import string
 import util
+import plotting
 
 
 class Result(Enum):
@@ -83,20 +84,24 @@ def filter_possible_valid_words(current_ranked_words: list, guess_results):
 
 def suggest_best_guess(master_words: list[str], possible_words: list[str], used_letters: list[str]) -> str:
     letters_ranked = rank_letters(possible_words, used_letters)
-    # print(letters_ranked)
     words_ranked = rank_words(master_words, letters_ranked)
-    return max(words_ranked, key=words_ranked.get)
+    
+    best_guess = max(words_ranked, key=words_ranked.get)
+    plotting.plot_letter_distribution(letters_ranked, best_guess)
+    return best_guess
 
 
 def display_guessing_information(best_suggestion: str, guess_number: int, possible_valid_words: list[str]):
     print("\n----------------")
     print(f"Guess {guess_number}")
     print("----------------\n")
-    print(f"There are {len(possible_valid_words)} possible words left")
-    if (len(possible_valid_words) < 10):
-        print(f"  {possible_valid_words}")
+    if (len(possible_valid_words) > 1):
+        print(f"There are {len(possible_valid_words)} possible words left")
+        print(f"Next best guess is '{best_suggestion}'\n")
+    else:
+        print(f"The solution is '{possible_valid_words[0]}'\n")
         
-    print(f"Next best guess is '{best_suggestion}'\n")
+        
 
 
 def get_guessed_word():
@@ -165,13 +170,14 @@ def main():
 
     MASTER_WORDS = util.read_txt_file("master_words.txt")
     possible_valid_words = util.read_txt_file("wordle_words.txt")
-    used_letters = []
+    used_letters = ""
     guess_number = 1
 
-    while len(possible_valid_words) > 1:
+    while len(possible_valid_words) > 0:
         best_suggestion = suggest_best_guess(MASTER_WORDS, possible_valid_words, used_letters)
         display_guessing_information(best_suggestion, guess_number, possible_valid_words)
         guess_results = get_guess_results_from_input(best_suggestion)
+        used_letters = used_letters + best_suggestion
         possible_valid_words = filter_possible_valid_words(possible_valid_words, guess_results)
         guess_number += 1
     
