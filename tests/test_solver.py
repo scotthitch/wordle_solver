@@ -137,75 +137,82 @@ class TestWordMeetsCriteria:
     # Think of some better tests and appropriate names
     
     def test_one(self):
-        result = [('b', solver.Result.INCORRECT),
-                  ('o', solver.Result.INCORRECT),
-                  ('n', solver.Result.INCORRECT),
-                  ('n', solver.Result.CORRECT),
-                  ('y', solver.Result.INCORRECT)]
+        results = [solver.Result.INCORRECT,
+                  solver.Result.INCORRECT,
+                  solver.Result.INCORRECT,
+                  solver.Result.CORRECT,
+                  solver.Result.INCORRECT]
         
+        guessed_word = "bonny"
         word_to_test = "flint"
-        assert solver.word_meets_all_criteria(word_to_test, result) == True
+        assert solver.word_meets_all_criteria(word_to_test, guessed_word, results) == True
 
     def test_two(self):
-        result = [('g', solver.Result.MISPLACED),
-                  ('r', solver.Result.CORRECT),
-                  ('o', solver.Result.MISPLACED),
-                  ('i', solver.Result.INCORRECT),
-                  ('n', solver.Result.CORRECT)]
+        results = [solver.Result.MISPLACED,
+                  solver.Result.CORRECT,
+                  solver.Result.MISPLACED,
+                  solver.Result.INCORRECT,
+                  solver.Result.CORRECT]
         
+        guessed_word = "groin"
         word_to_test = "organ"
-        assert solver.word_meets_all_criteria(word_to_test, result) == True
+        assert solver.word_meets_all_criteria(word_to_test, guessed_word, results) == True
 
 
     def test_three(self):
-        result = [('r', solver.Result.CORRECT),
-                  ('o', solver.Result.MISPLACED),
-                  ('m', solver.Result.INCORRECT),
-                  ('a', solver.Result.MISPLACED),
-                  ('n', solver.Result.CORRECT)]
+        results = [solver.Result.CORRECT,
+                  solver.Result.MISPLACED,
+                  solver.Result.INCORRECT,
+                  solver.Result.MISPLACED,
+                  solver.Result.CORRECT]
     
+        guessed_word = "roman"
         word_to_test = "champ"
-        assert solver.word_meets_all_criteria(word_to_test, result) == False
+        assert solver.word_meets_all_criteria(word_to_test, guessed_word, results) == False
 
 
     def test_four(self):
-        result = [('c', solver.Result.INCORRECT),
-                  ('h', solver.Result.INCORRECT),
-                  ('a', solver.Result.MISPLACED),
-                  ('m', solver.Result.INCORRECT),
-                  ('p', solver.Result.INCORRECT)]
-    
+        results = [solver.Result.INCORRECT,
+                  solver.Result.INCORRECT,
+                  solver.Result.MISPLACED,
+                  solver.Result.INCORRECT,
+                  solver.Result.INCORRECT]
+        
+        guessed_word = "champ"
         word_to_test = "frame"
-        assert solver.word_meets_all_criteria(word_to_test, result) == False
+        assert solver.word_meets_all_criteria(word_to_test, guessed_word, results) == False
 
     
     def test_five(self):
-        result = [('b', solver.Result.INCORRECT),
-                  ('r', solver.Result.INCORRECT),
-                  ('i', solver.Result.INCORRECT),
-                  ('n', solver.Result.INCORRECT),
-                  ('g', solver.Result.INCORRECT)]
-    
+        results = [solver.Result.INCORRECT,
+                  solver.Result.INCORRECT,
+                  solver.Result.INCORRECT,
+                  solver.Result.INCORRECT,
+                  solver.Result.INCORRECT]
+        
+        guessed_word = "bring"
         word_to_test = "think"
-        assert solver.word_meets_all_criteria(word_to_test, result) == False
+        assert solver.word_meets_all_criteria(word_to_test, guessed_word, results) == False
 
     def test_six(self):
-        result = [('t', solver.Result.INCORRECT),
-                  ('h', solver.Result.INCORRECT),
-                  ('i', solver.Result.INCORRECT),
-                  ('n', solver.Result.INCORRECT),
-                  ('k', solver.Result.INCORRECT)]
+        results = [solver.Result.INCORRECT,
+                  solver.Result.INCORRECT,
+                  solver.Result.INCORRECT,
+                  solver.Result.INCORRECT,
+                  solver.Result.INCORRECT]
     
+        guessed_word = "think"
         word_to_test = "plead"
-        assert solver.word_meets_all_criteria(word_to_test, result) == True
+        assert solver.word_meets_all_criteria(word_to_test, guessed_word, results) == True
 
 
     def test_seven(self):
-        result = [('b', solver.Result.INCORRECT),
-                  ('l', solver.Result.MISPLACED),
-                  ('e', solver.Result.INCORRECT),
-                  ('a', solver.Result.CORRECT),
-                  ('k', solver.Result.INCORRECT)]
-    
+        results = [solver.Result.INCORRECT,
+                  solver.Result.MISPLACED,
+                  solver.Result.INCORRECT,
+                  solver.Result.CORRECT,
+                  solver.Result.INCORRECT]
+        
+        guessed_word = "bleak"
         word_to_test = "reads"
-        assert solver.word_meets_all_criteria(word_to_test, result) == False
+        assert solver.word_meets_all_criteria(word_to_test, guessed_word, results) == False

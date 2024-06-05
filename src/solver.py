@@ -1,5 +1,7 @@
 import string
-from .util import *
+from typing import List
+from . import util
+from .util import Result
 # from . import plotting
 
 
@@ -46,34 +48,32 @@ def replace_char_at_index(original_str: str, new_char: str, index: int):
     new_str = original_str[:index] + new_char + original_str[index+1:]
     return new_str
 
-def word_meets_all_criteria(word: str, guess_results):
-    
-
+def word_meets_all_criteria(word: str, guessed_word, guess_results):
     # Loop through all characters in word and check that each criteria is met
-    for i, (char, char_result) in enumerate(guess_results):
+    for i, (char, char_result) in enumerate(zip(guessed_word, guess_results)):
         if char_result == Result.CORRECT:
             if not correct_char_criteria_met(char, i, word):
                 return False
             word = replace_char_at_index(word, "_", i)
             
-    for i, (char, char_result) in enumerate(guess_results):
+    for i, (char, char_result) in enumerate(zip(guessed_word, guess_results)):
         if char_result == Result.MISPLACED:
             if not misplaced_char_criteria_met(char, i, word):
                 return False
             word = word.replace(char, '_')
 
 
-    for i, (char, char_result) in enumerate(guess_results):
+    for i, (char, char_result) in enumerate(zip(guessed_word, guess_results)):
         if char_result == Result.INCORRECT:
             if not incorrect_char_criteria_met(char, word):
                 return False
             
     return True
 
-def filter_possible_valid_words(current_ranked_words: list, guess_results):
+def filter_possible_valid_words(current_ranked_words: list, guessed_word: str, guess_results: List[Result]):
     filtered_ranked_words = []
     for word in current_ranked_words:
-        if (word_meets_all_criteria(word, guess_results)):
+        if (word_meets_all_criteria(word, guessed_word, guess_results)):
             filtered_ranked_words.append(word)
     return filtered_ranked_words
 
@@ -139,8 +139,8 @@ def get_guess_results_from_input(best_suggestion):
         util.exit_program()
 
     
-    result_array_tuple = []
-    for i in range(len(guessed_word)):
-        result_array_tuple.append((guessed_word[i], results[i]))
+    # result_array_tuple = []
+    # for i in range(len(guessed_word)):
+    #     result_array_tuple.append((guessed_word[i], results[i]))
     
-    return result_array_tuple
+    return guessed_word, results

@@ -23,9 +23,9 @@ def run_user_input():
     while len(possible_valid_words) > 0:
         best_suggestion = solver.suggest_best_guess(MASTER_WORDS, possible_valid_words, used_letters)
         solver.display_guessing_information(best_suggestion, guess_number, possible_valid_words)
-        guess_results = solver.get_guess_results_from_input(best_suggestion)
-        used_letters = used_letters + best_suggestion
-        possible_valid_words = solver.filter_possible_valid_words(possible_valid_words, guess_results)
+        guessed_word, guess_results = solver.get_guess_results_from_input(best_suggestion)
+        used_letters = used_letters + guessed_word
+        possible_valid_words = solver.filter_possible_valid_words(possible_valid_words, guessed_word, guess_results)
         guess_number += 1
 
 def run_simulation():
@@ -37,7 +37,8 @@ def run_simulation():
         wordle_simulator.simulate_wordle(answer_word, MASTER_WORDS, wordle_words)
 
 def main():
-    run_simulation()
+    # run_simulation()
+    run_user_input()
     
 
 if __name__ == "__main__":
