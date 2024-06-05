@@ -1,6 +1,5 @@
-import pytest
+# import src.solver as solver
 from src import solver
-import pdb
 
 class TestCorrrectCharCriteriaMet:
     # Test for multiple locations

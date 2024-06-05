@@ -1,8 +1,7 @@
 from enum import Enum
 import string
-import util
-import plotting
-
+from . import util
+# from . import plotting
 
 class Result(Enum):
     CORRECT = 0
@@ -149,38 +148,3 @@ def get_guess_results_from_input(best_suggestion):
         result_array_tuple.append((guessed_word[i], results[i]))
     
     return result_array_tuple
-    
-
-def main():
-    # n_guesses: int = 0
-    # def test_one(self):
-        # pdb.set_trace()
-    # result = [('b', Result.INCORRECT),
-    #             ('o', Result.INCORRECT),
-    #             ('n', Result.INCORRECT),
-    #             ('n', Result.CORRECT),
-    #             ('y', Result.INCORRECT)]
-    
-    # word_to_test = "flint"
-    # print(word_meets_all_criteria(word_to_test, result))
-
-
-
-    MASTER_WORDS = util.read_txt_file("master_words.txt")
-    possible_valid_words = util.read_txt_file("wordle_words.txt")
-    used_letters = ""
-    guess_number = 1
-
-    while len(possible_valid_words) > 0:
-        best_suggestion = suggest_best_guess(MASTER_WORDS, possible_valid_words, used_letters)
-        display_guessing_information(best_suggestion, guess_number, possible_valid_words)
-        guess_results = get_guess_results_from_input(best_suggestion)
-        used_letters = used_letters + best_suggestion
-        possible_valid_words = filter_possible_valid_words(possible_valid_words, guess_results)
-        guess_number += 1
-    
-
-if __name__ == "__main__":
-    main()
-
-# main()
