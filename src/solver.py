@@ -1,12 +1,8 @@
-from enum import Enum
 import string
-from . import util
+from .util import *
 # from . import plotting
 
-class Result(Enum):
-    CORRECT = 0
-    INCORRECT = 1
-    MISPLACED = 2
+
 
 WORD_LENGTH: int = 5
 

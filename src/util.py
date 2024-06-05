@@ -1,5 +1,11 @@
 import sys
 from typing import List
+from enum import Enum
+
+class Result(Enum):
+    CORRECT = 0
+    INCORRECT = 1
+    MISPLACED = 2
 
 def exit_program():
     print("Exiting the progam")
