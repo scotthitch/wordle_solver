@@ -2,6 +2,8 @@ import sys
 from typing import List
 from enum import Enum
 
+WORD_LENGTH: int = 5
+
 class Result(Enum):
     CORRECT = 0
     INCORRECT = 1
@@ -23,3 +25,8 @@ def read_txt_file(file_path: str) -> List[str]:
         print(f"An unexpected error occurred while reading the file '{file_path}': {e}")
 
     exit_program()
+    
+    
+def replace_char_at_index(original_str: str, new_char: str, index: int):
+    new_str = original_str[:index] + new_char + original_str[index+1:]
+    return new_str

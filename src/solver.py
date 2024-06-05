@@ -1,12 +1,8 @@
 import string
 from typing import List
 from . import util
-from .util import Result
+from .util import Result, WORD_LENGTH
 # from . import plotting
-
-
-
-WORD_LENGTH: int = 5
 
 def rank_letters(words_list: list, used_letters: str) -> dict:
     # letters_ranked = {}
@@ -44,17 +40,13 @@ def incorrect_char_criteria_met(char: str, word: str):
 def misplaced_char_criteria_met(char: str, index: int, word: str):
     return char != word[index] and char in word
 
-def replace_char_at_index(original_str: str, new_char: str, index: int):
-    new_str = original_str[:index] + new_char + original_str[index+1:]
-    return new_str
-
 def word_meets_all_criteria(word: str, guessed_word, guess_results):
     # Loop through all characters in word and check that each criteria is met
     for i, (char, char_result) in enumerate(zip(guessed_word, guess_results)):
         if char_result == Result.CORRECT:
             if not correct_char_criteria_met(char, i, word):
                 return False
-            word = replace_char_at_index(word, "_", i)
+            word = util.replace_char_at_index(word, "_", i)
             
     for i, (char, char_result) in enumerate(zip(guessed_word, guess_results)):
         if char_result == Result.MISPLACED:
@@ -70,14 +62,17 @@ def word_meets_all_criteria(word: str, guessed_word, guess_results):
             
     return True
 
-def filter_possible_valid_words(current_ranked_words: list, guessed_word: str, guess_results: List[Result]):
+def filter_possible_valid_words(current_possible_words: list, guessed_word: str, guess_results: List[Result]):
     filtered_ranked_words = []
-    for word in current_ranked_words:
+    for word in current_possible_words:
         if (word_meets_all_criteria(word, guessed_word, guess_results)):
             filtered_ranked_words.append(word)
     return filtered_ranked_words
 
 def suggest_best_guess(master_words: list[str], possible_words: list[str], used_letters: str) -> str:
+    if (len(possible_words) <= 2):
+        return possible_words[0]
+    
     letters_ranked = rank_letters(possible_words, used_letters)
     words_ranked = rank_words(master_words, letters_ranked)
     

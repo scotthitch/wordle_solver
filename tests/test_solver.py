@@ -1,6 +1,5 @@
 # import src.solver as solver
-from src import solver
-
+from src import solver, util
 class TestCorrrectCharCriteriaMet:
     # Test for multiple locations
 
@@ -109,7 +108,7 @@ class TestReplaceCharAtIndex:
         original_str = "bring"
         expected_result = "brang"
 
-        result = solver.replace_char_at_index(original_str, char, index)
+        result = util.replace_char_at_index(original_str, char, index)
     
         assert result == expected_result
 
@@ -119,7 +118,7 @@ class TestReplaceCharAtIndex:
         original_str = "thank"
         expected_result = "hhank"
 
-        result = solver.replace_char_at_index(original_str, char, index)
+        result = util.replace_char_at_index(original_str, char, index)
     
         assert result == expected_result
 
@@ -129,11 +128,23 @@ class TestReplaceCharAtIndex:
         original_str = "rests"
         expected_result = "resty"
 
-        result = solver.replace_char_at_index(original_str, char, index)
+        result = util.replace_char_at_index(original_str, char, index)
     
         assert result == expected_result
 
 class TestWordMeetsCriteria:
+    # def test_zero(self):
+    #     results = [solver.Result.INCORRECT,
+    #                solver.Result.INCORRECT,
+    #                solver.Result.MISPLACED,
+    #                solver.Result.MISPLACED,
+    #                solver.Result.MISPLACED]
+        
+    #     guessed_word = "saree"
+    #     word_to_test = "civet"
+        
+    #     assert solver.word_meets_all_criteria(word_to_test, guessed_word, results) == True
+        
     # Think of some better tests and appropriate names
     
     def test_one(self):
@@ -216,3 +227,15 @@ class TestWordMeetsCriteria:
         guessed_word = "bleak"
         word_to_test = "reads"
         assert solver.word_meets_all_criteria(word_to_test, guessed_word, results) == False
+        
+        
+    # def test_seven(self):
+    #     results = [solver.Result.INCORRECT,
+    #               solver.Result.MISPLACED,
+    #               solver.Result.INCORRECT,
+    #               solver.Result.CORRECT,
+    #               solver.Result.INCORRECT]
+        
+    #     guessed_word = "bleak"
+    #     word_to_test = "reads"
+    #     assert solver.word_meets_all_criteria(word_to_test, guessed_word, results) == False
