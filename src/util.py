@@ -14,15 +14,16 @@ def exit_program():
     sys.exit(1)
 
 
-def read_txt_file(file_path: str) -> List[str]:
+def read_txt_file_resource(file_name: str) -> List[str]:
+    file_path = f"resources/{file_name}"
     try:
         with open(file_path, 'r') as file:
             return file.read().splitlines()
         
     except FileNotFoundError:
-        print(f"Error: The file '{file_path}' was not found.")
+        print(f"Error: The file '{file_name}' was not found.")
     except Exception as e:
-        print(f"An unexpected error occurred while reading the file '{file_path}': {e}")
+        print(f"An unexpected error occurred while reading the file '{file_name}': {e}")
 
     exit_program()
     

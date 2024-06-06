@@ -17,8 +17,8 @@ def run_user_input():
 
 
 
-    MASTER_WORDS = util.read_txt_file("master_words.txt")
-    possible_valid_words = util.read_txt_file("wordle_words.txt")
+    MASTER_WORDS = util.read_txt_file_resource("master_words.txt")
+    possible_valid_words = util.read_txt_file_resource("wordle_words.txt")
     used_letters = ""
     guess_number = 1
 
@@ -40,15 +40,17 @@ def present_results(results: dict[int, List[str]]):
         sum1 += key * len(value)
 
     print(results)
-    print(sum1)
-    print(sum1/n_words_guessed)
+    for key, value in results.items():
+        print(f"{key}: {len(value)}")
+    
+    print(f"average number of gueses {sum1/n_words_guessed}")
 
     
 
 def run_simulation():
-    MASTER_WORDS = util.read_txt_file("master_words.txt")
-    answer_words = util.read_txt_file("wordle_words.txt")
-    wordle_words = util.read_txt_file("wordle_words.txt")
+    MASTER_WORDS = util.read_txt_file_resource("master_words.txt")
+    answer_words = util.read_txt_file_resource("wordle_words.txt")
+    wordle_words = util.read_txt_file_resource("wordle_words.txt")
     
     results = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: []}
     
