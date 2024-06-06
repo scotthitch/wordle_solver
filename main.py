@@ -66,8 +66,8 @@ def run_simulation():
     
 
 def main():
-    run_simulation()
-    # run_user_input()
+    # run_simulation()
+    run_user_input()
     
 
 if __name__ == "__main__":
