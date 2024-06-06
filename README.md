@@ -1,6 +1,6 @@
 # Welcome to my Wordle solver!
 
-![](wordle_logo.png)
+![](img/wordle_logo.png)
 
 ## Use:
 
