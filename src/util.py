@@ -30,3 +30,6 @@ def read_txt_file(file_path: str) -> List[str]:
 def replace_char_at_index(original_str: str, new_char: str, index: int):
     new_str = original_str[:index] + new_char + original_str[index+1:]
     return new_str
+
+def is_char_first_occurance(word: str, index: int):
+    return word[index] not in word[:index]
