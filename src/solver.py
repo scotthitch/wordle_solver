@@ -24,6 +24,11 @@ def score_words(words_list: list, ranked_letters: dict) -> dict:
         for i, character in enumerate(word):
             if character not in ranked_letters: 
                 continue
+            
+            # If it's the first time a character shows up in a word
+            # give it all the points associated with that letter
+            if util.is_char_first_occurance(word, i):
+                words_score[word] += sum(ranked_letters[character])    
 
             words_score[word] += ranked_letters[character][i]
     return words_score
