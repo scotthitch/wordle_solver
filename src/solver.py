@@ -15,20 +15,18 @@ def rank_letters(words_list: list, used_letters: str) -> dict:
                 letters_ranked[character][i] += 1
     return letters_ranked
 
-def rank_words(words_list: list, ranked_letters: dict) -> dict:
-    words_ranked = {}
+def score_words(words_list: list, ranked_letters: dict) -> dict:
+    words_score = {}
     
     for word in words_list:
+        words_score[word] = 0
+        
         for i, character in enumerate(word):
             if character not in ranked_letters: 
                 continue
 
-            if word not in words_ranked:
-                words_ranked[word] = ranked_letters[character][i]
-                continue
-
-            words_ranked[word] += ranked_letters[character][i]
-    return words_ranked
+            words_score[word] += ranked_letters[character][i]
+    return words_score
 
 
 def correct_char_criteria_met(char: str, index: int, word: str):
@@ -74,7 +72,7 @@ def suggest_best_guess(master_words: list[str], possible_words: list[str], used_
         return possible_words[0]
     
     letters_ranked = rank_letters(possible_words, used_letters)
-    words_ranked = rank_words(master_words, letters_ranked)
+    words_ranked = score_words(master_words, letters_ranked)
     
     best_guess = max(words_ranked, key=words_ranked.get)
     # plotting.plot_letter_distribution(letters_ranked, best_guess)
