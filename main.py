@@ -56,7 +56,7 @@ def run_simulation():
     
     # answer_word = answer_words[50]
     # answer_word = "booby"
-    for i, answer_word in enumerate(answer_words):
+    for i, answer_word in enumerate(answer_words[:100]):
         n_guesses = wordle_simulator.simulate_wordle(answer_word, MASTER_WORDS, wordle_words)
         results[n_guesses].append(answer_word)
         print(f"{i}")
